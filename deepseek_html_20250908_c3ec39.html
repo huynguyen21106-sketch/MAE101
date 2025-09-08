@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm tra Phép Nhân Ma Trận</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+        }
+        .matrix-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        .matrix {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .matrix-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        table input {
+            width: 50px;
+            height: 35px;
+            padding: 5px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        table input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        #randomBtn {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+        }
+        #randomBtn:hover {
+            background: linear-gradient(to right, #8e44ad, #7d3c98);
+        }
+        #checkBtn {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+        }
+        #checkBtn:hover {
+            background: linear-gradient(to right, #27ae60, #219653);
+        }
+        .question {
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(to right, #f9f9f9, #e8f4fc);
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .answer-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .answer-input input {
+            width: 80px;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        .math-display {
+            overflow-x: auto;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        @media (max-width: 768px) {
+            .matrix-container {
+                flex-direction: column;
+            }
+            table input {
+                width: 40px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kiểm tra Phép Nhân Ma Trận</h1>
+        
+        <div class="instructions">
+            <p><strong>Hướng dẫn:</strong> Ứng dụng sẽ tạo ngẫu nhiên hai ma trận A và B. Bạn cần tính tích của hai ma trận này và trả lời câu hỏi về phần tử tại vị trí cụ thể trong ma trận kết quả.</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="randomBtn" onclick="generateRandomMatrices()">Tạo ma trận ngẫu nhiên</button>
+        </div>
+        
+        <div class="matrix-container">
+            <div class="matrix">
+                <div class="matrix-title">Ma trận A</div>
+                <div id="matrixA"></div>
+            </div>
+            
+            <div class="matrix">
+                <div class="matrix-title">Ma trận B</div>
+                <div id="matrixB"></div>
+            </div>
+        </div>
+        
+        <div id="question" class="question" style="display: none;">
+            <h3>Câu hỏi</h3>
+            <p>Phần tử tại hàng <span id="rowIndex"></span>, cột <span id="colIndex"></span> của ma trận tích C = A × B là bao nhiêu?</p>
+            
+            <div class="answer-input">
+                <label for="userAnswer">Câu trả lời:</label>
+                <input type="number" id="userAnswer">
+                <button id="checkBtn" onclick="checkAnswer()">Kiểm tra</button>
+            </div>
+            
+            <div id="result" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let matrixA = [];
+        let matrixB = [];
+        let matrixC = [];
+        let questionRow = 0;
+        let questionCol = 0;
+        
+        // Tạo ma trận ngẫu nhiên
+        function generateRandomMatrices() {
+            // Kích thước ngẫu nhiên từ 2x2 đến 4x4
+            const rowsA = Math.floor(Math.random() * 3) + 2;
+            const colsA = Math.floor(Math.random() * 3) + 2;
+            const rowsB = colsA; // Đảm bảo có thể nhân được
+            const colsB = Math.floor(Math.random() * 3) + 2;
+            
+            // Tạo ma trận A với giá trị ngẫu nhiên từ -9 đến 9
+            matrixA = [];
+            let matrixAHTML = '<table>';
+            for (let i = 0; i < rowsA; i++) {
+                matrixA[i] = [];
+                matrixAHTML += '<tr>';
+                for (let j = 0; j < colsA; j++) {
+                    const value = Math.floor(Math.random() * 19) - 9;
+                    matrixA[i][j] = value;
+                    matrixAHTML += `<td><input type="number" value="${value}" readonly></td>`;
+                }
+                matrixAHTML += '</tr>';
+            }
+            matrixAHTML += '</table>';
+            document.getElementById('matrixA').innerHTML = matrixAHTML;
+            
+            // Tạo ma trận B với giá trị ngẫu nhiên từ -9 đến 9
+            matrixB = [];
+            let matrixBHTML = '<table>';
+            for (let i = 0; i < rowsB; i++) {
+                matrixB[i] = [];
+                matrixBHTML += '<tr>';
+                for (let j = 0; j < colsB; j++) {
+                    const value = Math.floor(Math.random() * 19) - 9;
+                    matrixB[i][j] = value;
+                    matrixBHTML += `<td><input type="number" value="${value}" readonly></td>`;
+                }
+                matrixBHTML += '</tr>';
+            }
+            matrixBHTML += '</table>';
+            document.getElementById('matrixB').innerHTML = matrixBHTML;
+            
+            // Tính ma trận tích C
+            multiplyMatrices();
+            
+            // Tạo câu hỏi ngẫu nhiên
+            generateQuestion();
+            
+            // Hiển thị câu hỏi
+            document.getElementById('question').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        // Thực hiện phép nhân ma trận
+        function multiplyMatrices() {
+            const rowsA = matrixA.length;
+            const colsA = matrixA[0].length;
+            const rowsB = matrixB.length;
+            const colsB = matrixB[0].length;
+            
+            matrixC = [];
+            for (let i = 0; i < rowsA; i++) {
+                matrixC[i] = [];
+                for (let j = 0; j < colsB; j++) {
+                    let sum = 0;
+                    for (let k = 0; k < colsA; k++) {
+                        sum += matrixA[i][k] * matrixB[k][j];
+                    }
+                    matrixC[i][j] = sum;
+                }
+            }
+        }
+        
+        // Tạo câu hỏi ngẫu nhiên
+        function generateQuestion() {
+            const rows = matrixC.length;
+            const cols = matrixC[0].length;
+            
+            // Chọn ngẫu nhiên một phần tử trong ma trận kết quả
+            questionRow = Math.floor(Math.random() * rows);
+            questionCol = Math.floor(Math.random() * cols);
+            
+            // Hiển thị câu hỏi
+            document.getElementById('rowIndex').textContent = questionRow + 1;
+            document.getElementById('colIndex').textContent = questionCol + 1;
+            
+            // Xóa câu trả lời cũ
+            document.getElementById('userAnswer').value = '';
+        }
+        
+        // Kiểm tra câu trả lời
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('userAnswer').value);
+            const correctAnswer = matrixC[questionRow][questionCol];
+            
+            const resultDiv = document.getElementById('result');
+            
+            if (userAnswer === correctAnswer) {
+                resultDiv.className = 'result correct';
+                resultDiv.innerHTML = 'Chính xác! 🎉';
+            } else {
+                resultDiv.className = 'result incorrect';
+                resultDiv.innerHTML = `Sai rồi! 😞 Đáp án đúng là ${correctAnswer}`;
+            }
+            
+            resultDiv.style.display = 'block';
+            
+            // Tạo câu hỏi mới sau 2 giây
+            setTimeout(() => {
+                generateQuestion();
+                resultDiv.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Tạo ma trận ngẫu nhiên khi trang được tải
+        window.onload = generateRandomMatrices;
+    </script>
+</body>
+</html>
